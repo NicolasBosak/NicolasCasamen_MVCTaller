@@ -15,5 +15,6 @@ namespace NicolasCasamen_MVCTaller.Data
         }
 
         public DbSet<NicolasCasamen_MVCTaller.Models.Burger> Burger { get; set; } = default!;
+        public DbSet<NicolasCasamen_MVCTaller.Models.Promo> Promo { get; set; } = default!;
     }
 }

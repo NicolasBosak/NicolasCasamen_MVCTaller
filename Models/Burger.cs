@@ -4,7 +4,7 @@ namespace NicolasCasamen_MVCTaller.Models
 {
     public class Burger
     {
-        public int BurgerId { get; set; }
+        public int Id { get; set; }
         [Required]
         public string? Name { get; set; }
         public bool WithCheese { get; set; }
