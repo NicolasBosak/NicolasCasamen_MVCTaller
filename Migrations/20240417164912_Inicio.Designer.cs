@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NicolasCasamen_MVCTaller.Data;
 
@@ -11,9 +12,10 @@ using NicolasCasamen_MVCTaller.Data;
 namespace NicolasCasamen_MVCTaller.Migrations
 {
     [DbContext(typeof(NicolasCasamen_MVCTallerContext))]
-    partial class NicolasCasamen_MVCTallerContextModelSnapshot : ModelSnapshot
+    [Migration("20240417164912_Inicio")]
+    partial class Inicio
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
