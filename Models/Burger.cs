@@ -1,29 +1,33 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using static NicolasCasamen_MVCTaller.Models.Burger;
 
 namespace NicolasCasamen_MVCTaller.Models
 {
     public class Burger
     {
-        public int Id { get; set; }
+        public int BurgerId { get; set; }
         [Required]
-        public string? Name { get; set; }
+        public string Name { get; set; } = null!;
+
         public bool WithCheese { get; set; }
-        [VerfivarRango]
+        [VerificarRango]
         public decimal Precio { get; set; }
-        public List<Promo>? Promo { get; set; }
-    }
-    public class VerfivarRango : ValidationAttribute
-    {
-        public override bool IsValid(object? value)
+
+        public virtual ICollection<Promo> Promos { get; set; } = new List<Promo>();
+
+        public class VerificarRango : ValidationAttribute
         {
-            decimal valor = (decimal)value;
-            if(valor < 20)
+            public override bool IsValid(object? value)
             {
-                return true;
-            }
-            else
-            {
-                return false;
+                decimal valor = (decimal)value;
+                if (valor < 20)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
     }

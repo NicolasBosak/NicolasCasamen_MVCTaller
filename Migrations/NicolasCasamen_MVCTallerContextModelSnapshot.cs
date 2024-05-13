@@ -24,11 +24,11 @@ namespace NicolasCasamen_MVCTaller.Migrations
 
             modelBuilder.Entity("NicolasCasamen_MVCTaller.Models.Burger", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("BurgerId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BurgerId"), 1L, 1);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -40,32 +40,29 @@ namespace NicolasCasamen_MVCTaller.Migrations
                     b.Property<bool>("WithCheese")
                         .HasColumnType("bit");
 
-                    b.HasKey("Id");
+                    b.HasKey("BurgerId");
 
                     b.ToTable("Burger");
                 });
 
             modelBuilder.Entity("NicolasCasamen_MVCTaller.Models.Promo", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("PromoId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PromoId"), 1L, 1);
 
-                    b.Property<int?>("BurgerId")
+                    b.Property<int>("BurgerId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Descripcion")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("FechaPromo")
+                    b.Property<DateTime>("FechaPromocion")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PromoID")
-                        .HasColumnType("int");
+                    b.Property<string>("PromoDescripcion")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("PromoId");
 
                     b.HasIndex("BurgerId");
 
@@ -75,15 +72,17 @@ namespace NicolasCasamen_MVCTaller.Migrations
             modelBuilder.Entity("NicolasCasamen_MVCTaller.Models.Promo", b =>
                 {
                     b.HasOne("NicolasCasamen_MVCTaller.Models.Burger", "Burger")
-                        .WithMany("Promo")
-                        .HasForeignKey("BurgerId");
+                        .WithMany("Promos")
+                        .HasForeignKey("BurgerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Burger");
                 });
 
             modelBuilder.Entity("NicolasCasamen_MVCTaller.Models.Burger", b =>
                 {
-                    b.Navigation("Promo");
+                    b.Navigation("Promos");
                 });
 #pragma warning restore 612, 618
         }

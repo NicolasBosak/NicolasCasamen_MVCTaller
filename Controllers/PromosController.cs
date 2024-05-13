@@ -22,9 +22,8 @@ namespace NicolasCasamen_MVCTaller.Controllers
         // GET: Promos
         public async Task<IActionResult> Index()
         {
-              return _context.Promo != null ? 
-                          View(await _context.Promo.ToListAsync()) :
-                          Problem("Entity set 'NicolasCasamen_MVCTallerContext.Promo'  is null.");
+            var nicolasCasamen_MVCTallerContext = _context.Promo.Include(p => p.Burger);
+            return View(await nicolasCasamen_MVCTallerContext.ToListAsync());
         }
 
         // GET: Promos/Details/5
@@ -36,7 +35,8 @@ namespace NicolasCasamen_MVCTaller.Controllers
             }
 
             var promo = await _context.Promo
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Include(p => p.Burger)
+                .FirstOrDefaultAsync(m => m.PromoId == id);
             if (promo == null)
             {
                 return NotFound();
@@ -48,6 +48,7 @@ namespace NicolasCasamen_MVCTaller.Controllers
         // GET: Promos/Create
         public IActionResult Create()
         {
+            ViewData["BurgerId"] = new SelectList(_context.Burger, "BurgerId", "Name");
             return View();
         }
 
@@ -56,7 +57,7 @@ namespace NicolasCasamen_MVCTaller.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PromoID,Descripcion,FechaPromo,Id")] Promo promo)
+        public async Task<IActionResult> Create([Bind("PromoId,PromoDescripcion,FechaPromocion,BurgerId")] Promo promo)
         {
             if (ModelState.IsValid)
             {
@@ -64,6 +65,7 @@ namespace NicolasCasamen_MVCTaller.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["BurgerId"] = new SelectList(_context.Burger, "BurgerId", "Name", promo.BurgerId);
             return View(promo);
         }
 
@@ -80,6 +82,7 @@ namespace NicolasCasamen_MVCTaller.Controllers
             {
                 return NotFound();
             }
+            ViewData["BurgerId"] = new SelectList(_context.Burger, "BurgerId", "Name", promo.BurgerId);
             return View(promo);
         }
 
@@ -88,9 +91,9 @@ namespace NicolasCasamen_MVCTaller.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PromoID,Descripcion,FechaPromo,Id")] Promo promo)
+        public async Task<IActionResult> Edit(int id, [Bind("PromoId,PromoDescripcion,FechaPromocion,BurgerId")] Promo promo)
         {
-            if (id != promo.Id)
+            if (id != promo.PromoId)
             {
                 return NotFound();
             }
@@ -104,7 +107,7 @@ namespace NicolasCasamen_MVCTaller.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PromoExists(promo.Id))
+                    if (!PromoExists(promo.PromoId))
                     {
                         return NotFound();
                     }
@@ -115,6 +118,7 @@ namespace NicolasCasamen_MVCTaller.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["BurgerId"] = new SelectList(_context.Burger, "BurgerId", "Name", promo.BurgerId);
             return View(promo);
         }
 
@@ -127,7 +131,8 @@ namespace NicolasCasamen_MVCTaller.Controllers
             }
 
             var promo = await _context.Promo
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Include(p => p.Burger)
+                .FirstOrDefaultAsync(m => m.PromoId == id);
             if (promo == null)
             {
                 return NotFound();
@@ -157,7 +162,7 @@ namespace NicolasCasamen_MVCTaller.Controllers
 
         private bool PromoExists(int id)
         {
-          return (_context.Promo?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Promo?.Any(e => e.PromoId == id)).GetValueOrDefault();
         }
     }
 }
